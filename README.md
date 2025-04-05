@@ -33,7 +33,7 @@ The Hospital Management System is designed to streamline the operations of a hos
     ```
 4. Start the development server:
     ```bash
-    npm start
+    npm run dev
     ```
 
 ## Contribution
