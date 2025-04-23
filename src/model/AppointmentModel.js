@@ -1,12 +1,12 @@
 import mongoose from 'mongoose';
-import BaseModelSchema from './BaseModel';
+import BaseModelSchema from './BaseModel.js';
 
 const Schema = mongoose.Schema;
 
 const appointmentSchema = new Schema({
     patient: { type: Schema.Types.ObjectId, ref: 'Patient', required: true },
     doctor: { type: Schema.Types.ObjectId, ref: 'Doctor', required: true },
-    appointmentDate: { type: Date, required: true },
+    date: { type: Date, required: true },
     timeSlot: {
       type: String,
       required: true,

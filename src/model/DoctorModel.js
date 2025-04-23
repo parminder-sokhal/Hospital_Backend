@@ -19,7 +19,7 @@ const doctorSchema = new Schema({
   about: { type: String },
   qualification: { type: String },
   awards: { type: String },
-  experience: { type: Number },
+  experience: { type: String },
   fees: { type: Number },
   availability: {
     type: String,

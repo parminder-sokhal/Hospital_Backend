@@ -1,15 +1,15 @@
 import mongoose from 'mongoose';
-import BaseModelSchema from './BaseModel';
+import BaseModelSchema from './BaseModel.js';
 
 const Schema = mongoose.Schema;
 
 const patientSchema = new Schema({
   name: { type: String, required: true },
-  dob: { type: Date },
+  age: { type: String },
   gender: { type: String, enum: ['Male', 'Female', 'Other'] },
   contact: {
-    phone: { type: String },
-    email: { type: String, unique: true },
+    phone: { type: String, required: true },
+    email: { type: String, required: true },
     address: { type: String }
   },
   bloodGroup: { type: String },
