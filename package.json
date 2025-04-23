@@ -11,11 +11,19 @@
   "license": "ISC",
   "description": "Hospital Mangement system",
   "dependencies": {
+    "cloudinary": "^2.6.0",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.13.0",
-    "prettier": "^3.5.3"
+    "morgan": "^1.10.0",
+    "prettier": "^3.5.3",
+    "swagger-ui-express": "^5.0.1",
+    "url": "^0.11.4",
+    "winston": "^3.17.0",
+    "yaml": "^2.7.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.9"
