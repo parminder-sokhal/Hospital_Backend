@@ -70,7 +70,7 @@ app.use(
     swaggerOptions: {
       docExpansion: "none", // keep all the sections collapsed by default
     },
-    customSiteTitle: "Client Home Tuition App API docs",
+    customSiteTitle: "Hospital API docs",
   })
 );
 export default app;
