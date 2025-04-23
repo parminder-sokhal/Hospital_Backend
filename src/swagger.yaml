@@ -1,13 +1,19 @@
 openapi: 3.0.0
 info:
-  title: Home Tuition Backend API
+  title: Luna Hospital Management API
   description: |
-    This is the backend API for the **Home Tuition Platform**, designed to manage tutors, students, and class schedules efficiently. 
+    Welcome to the backend API documentation for **Luna Hospital Management System**.
     
-    The API provides endpoints for user authentication, tutor registration, student enrollment, and class management. 
-    
-    We encourage contributions to improve and extend the API. Feel free to explore, suggest changes, or enhance the features.
-    
+    This API enables seamless management of doctors, patients, appointments, departments, and medical records.
+
+    Key features include:
+    - Patient registration and record tracking
+    - Appointment scheduling and time slot management
+    - Doctor profile management with specialization and availability
+    - Secure user authentication and role-based access
+
+    Developers and contributors are welcome to explore, enhance, or suggest improvements to the system for better healthcare management.
+
     Some useful links:
     - [Backend Repository](https://github.com/razrahul/Client-Backend)
     
@@ -25,113 +31,63 @@ info:
 
 servers:
   - url: https://client-backend-ev0b.onrender.com/api/v1
-    description: Production Server
+    description: satge Server
   - url: http://localhost:5500/api/v1
     description: Local Development Server
+
 components:
   securitySchemes:
     noauthAuth:
       type: http
       scheme: noauth
 tags:
-  - name: Teacher
-  - name: Student
-  - name: Subject
-  - name: area
-  - name: Faq
-  - name: Contact-from
-  - name: Feedback
-  - name: Vacancy
+  - name: doctor
+  - name: Appointment
 paths:
-  /admin/teacher:
-    get:
-      tags:
-        - Teacher
-      summary: find techer subjrcyt and areaid
-      security:
-        - noauthAuth: []
-      parameters:
-        - name: areaId
-          in: query
-          schema:
-            type: string
-          example: 67ab5744788714c671eda8e3
-        - name: subjectId
-          in: query
-          schema:
-            type: string
-          example: 67aabf39a5089d3abffc0e21
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /createTeacher:
+  /doctor:
     post:
       tags:
-        - Teacher
-      summary: create teacher
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  example: raz rahul
-                email:
-                  type: string
-                  example: razrahul@gmail.com
-                phone:
-                  type: integer
-                  example: '9708712422'
-                areaId:
-                  type: string
-                  example: 679bc80a8644cad662b9046a
-                aboutUs:
-                  type: string
-                  example: testing chai rha h
-                subjectId:
-                  type: string
-                  example: 67aabf07a5089d3abffc0e1e , 67aabf39a5089d3abffc0e21
-                chargeRate:
-                  type: string
-                  example: 100-200
-                file:
-                  type: string
-                  format: binary
-      security:
-        - noauthAuth: []
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /api/v1/findteacher:
-    post:
-      tags:
-        - Teacher
-      summary: find teacher name , subject and areaname
+        - doctor
+      summary: create doctor
       requestBody:
         content:
           application/json:
             schema:
               type: object
               example:
-                SubjectandAreaName: math
-      security:
-        - noauthAuth: []
+                name: Rahul Kumar
+                specialization: Neuro & Spine Specialist
+                hospital: Neurologist at BrainCare Hospital
+                about: >-
+                  Dr. Neeraj Gupta is a leading neurologist with over 20 years
+                  of experience treating patients with complex neurological
+                  disorders. He is known for his patient-friendly approach,
+                  clinical excellence, and deep involvement in research and
+                  education.
+                qualification: >-
+                  MBBS - AIIMS Delhi | MD Neurology - PGIMER Chandigarh |
+                  Fellowship - Harvard Medical School
+                awards: >-
+                  Best Neurologist of the Year (2019), Global Medical Excellence
+                  Award (2021), Lifetime Achievement in Neurosciences (2023)
+                experience: 20 yrs
+                fees: 300
+                phone: '9708712422'
+                email: raz@gmail.com
+                slots:
+                  - 10:00 AM
+                  - 10:30 AM
+                  - 11:00 AM
       responses:
         '200':
           description: Successful response
           content:
             application/json: {}
-  /teacher/live:
+  /doctors:
     get:
       tags:
-        - Teacher
-      summary: Get All live Teacher
+        - doctor
+      summary: get All doctors
       security:
         - noauthAuth: []
       responses:
@@ -139,59 +95,56 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /updateTeacher/{teacherId}:
+  /doctor/{id}:
+    get:
+      tags:
+        - doctor
+      summary: get doctor by id
+      security:
+        - noauthAuth: []
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 6808fd3808a3fc484bce2003
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /doctor/{id}/availability:
     put:
       tags:
-        - Teacher
-      summary: update teacher
+        - doctor
+      summary: change availability
       requestBody:
         content:
-          multipart/form-data:
+          application/json:
             schema:
               type: object
-              properties:
-                name:
-                  type: string
-                  example: roushan kumar
-                email:
-                  type: string
-                  example: roushan@gmail.com
-                phone:
-                  type: integer
-                  example: '9708500422'
-                areaId:
-                  type: string
-                  example: 67ab5744788714c671eda8e3
-                aboutUs:
-                  type: string
-                  example: update testing chai rha h
-                subjectId:
-                  type: string
-                  example: 67aabf5ea5089d3abffc0e24, 67aabf39a5089d3abffc0e21
-                chargeRate:
-                  type: string
-                  example: 100-200
-                file:
-                  type: string
-                  format: binary
+              example:
+                availability: available
       security:
         - noauthAuth: []
       parameters:
-        - name: teacherId
+        - name: id
           in: path
           schema:
             type: string
           required: true
+          example: 6808fd3808a3fc484bce2003
       responses:
         '200':
           description: Successful response
           content:
             application/json: {}
-  /getTeachers:
+  /appoints:
     get:
       tags:
-        - Teacher
-      summary: Get All teachers
+        - Appointment
+      summary: get All Appointment
       security:
         - noauthAuth: []
       responses:
@@ -199,1060 +152,53 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /teacher/updatelive/{teacherId}:
-    patch:
-      tags:
-        - Teacher
-      summary: update live teacher
-      requestBody:
-        content: {}
-      security:
-        - noauthAuth: []
-      parameters:
-        - name: teacherId
-          in: path
-          schema:
-            type: string
-          required: true
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /getTeacherById/{teacherId}:
+  /appoints/{date}:
     get:
       tags:
-        - Teacher
-      summary: GEt Teacher By Id
+        - Appointment
+      summary: get Appontment by date
       security:
         - noauthAuth: []
       parameters:
-        - name: teacherId
+        - name: date
           in: path
           schema:
             type: string
           required: true
+          example: '2025-04-23'
       responses:
         '200':
           description: Successful response
           content:
             application/json: {}
-  /deleteTeacher/{teacherId}:
-    delete:
-      tags:
-        - Teacher
-      summary: delete Teacher
-      security:
-        - noauthAuth: []
-      parameters:
-        - name: teacherId
-          in: path
-          schema:
-            type: string
-          required: true
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /student:
-    get:
-      tags:
-        - Student
-      summary: get all students
-      security:
-        - noauthAuth: []
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
+  /appoint/{id}:
     post:
       tags:
-        - Student
-      summary: create Student
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  example: raz rahul
-                email:
-                  type: string
-                  example: razrahul@gmail.com
-                phone:
-                  type: integer
-                  example: '9708712422'
-                areaId:
-                  type: string
-                  example: 679bc80a8644cad662b9046a
-                aboutUs:
-                  type: string
-                  example: testing chai rha h
-                subjectId:
-                  type: string
-                  example: 67aabf07a5089d3abffc0e1e , 67aabf39a5089d3abffc0e21
-                chargeRate:
-                  type: string
-                  example: 100-200
-                className:
-                  type: string
-                  example: 11th
-                gender:
-                  type: string
-                  example: Male
-                file:
-                  type: string
-                  format: binary
-      security:
-        - noauthAuth: []
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /student/{Id}:
-    get:
-      tags:
-        - Student
-      summary: get Student by id
-      security:
-        - noauthAuth: []
-      parameters:
-        - name: Id
-          in: path
-          schema:
-            type: string
-          required: true
-          example: 67a8f294d524a28357e2884e
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-    put:
-      tags:
-        - Student
-      summary: update student
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  example: raz rahul
-                email:
-                  type: string
-                  example: rajan@gmail.com
-                phone:
-                  type: integer
-                  example: '9708712422'
-                areaId:
-                  type: string
-                  example: 67ab5744788714c671eda8e3
-                aboutUs:
-                  type: string
-                  example: update testing chai rha h
-                subjectId:
-                  type: string
-                  example: 67aabf07a5089d3abffc0e1e , 67aabf39a5089d3abffc0e21
-                chargeRate:
-                  type: string
-                  example: 300-200
-                className:
-                  type: string
-                  example: 12th
-                gender:
-                  type: string
-                  example: Female
-                file:
-                  type: string
-                  format: binary
-      security:
-        - noauthAuth: []
-      parameters:
-        - name: Id
-          in: path
-          schema:
-            type: string
-          required: true
-          example: 67abaf1d10ba9f78da741fab
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-    delete:
-      tags:
-        - Student
-      summary: Delete Student
-      security:
-        - noauthAuth: []
-      parameters:
-        - name: Id
-          in: path
-          schema:
-            type: string
-          required: true
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /student/live:
-    get:
-      tags:
-        - Student
-      summary: Get All Live Students
-      security:
-        - noauthAuth: []
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /student/updatelive/{Id}:
-    patch:
-      tags:
-        - Student
-      summary: update live status student
-      requestBody:
-        content: {}
-      security:
-        - noauthAuth: []
-      parameters:
-        - name: Id
-          in: path
-          schema:
-            type: string
-          required: true
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /admin/student:
-    get:
-      tags:
-        - Student
-      summary: find student by area and subject
-      security:
-        - noauthAuth: []
-      parameters:
-        - name: subjectId
-          in: query
-          schema:
-            type: string
-          example: 67aabf07a5089d3abffc0e1e
-        - name: areaId
-          in: query
-          schema:
-            type: string
-          example: 67ab5744788714c671eda8e3
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /subject:
-    get:
-      tags:
-        - Subject
-      summary: get All Subject
-      security:
-        - noauthAuth: []
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-    post:
-      tags:
-        - Subject
-      summary: create subject
+        - Appointment
+      summary: create Appointment
       requestBody:
         content:
           application/json:
             schema:
               type: object
               example:
-                name: computer
-      security:
-        - noauthAuth: []
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /subject/live:
-    get:
-      tags:
-        - Subject
-      summary: get all live subject
-      security:
-        - noauthAuth: []
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /subject/updatelive/{Id}:
-    patch:
-      tags:
-        - Subject
-      summary: update  islive subject
-      requestBody:
-        content: {}
-      security:
-        - noauthAuth: []
-      parameters:
-        - name: Id
-          in: path
-          schema:
-            type: string
-          required: true
-          example: 67aabf07a5089d3abffc0e1e
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /subject/{Id}:
-    get:
-      tags:
-        - Subject
-      summary: Get Subject By Id
-      security:
-        - noauthAuth: []
-      parameters:
-        - name: Id
-          in: path
-          schema:
-            type: string
-          required: true
-          example: 67ac6559eda9e2d5400a34ec
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-    put:
-      tags:
-        - Subject
-      summary: update Subject
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              example:
-                name: Biogoly
-      security:
-        - noauthAuth: []
-      parameters:
-        - name: Id
-          in: path
-          schema:
-            type: string
-          required: true
-          example: 67aabf39a5089d3abffc0e21
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /subject/{id}:
-    delete:
-      tags:
-        - Subject
-      summary: Delete Subject
-      security:
-        - noauthAuth: []
+                name: raz rahul
+                age: 24 yrs
+                gender: Male
+                phone: '9708712422'
+                email: razrahul1@gmail.com
+                address: Digha Patna
+                bloodGroup: A+
+                date: '2025-04-23'
+                timeSlot: 10:00 AM
+                symptoms: Skin Problem
       parameters:
         - name: id
           in: path
           schema:
             type: string
           required: true
-          example: 67aabf39a5089d3abffc0e21
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /updateLiveStatus/area/67ab7fc23648ce7accb29b9a:
-    patch:
-      tags:
-        - area
-      summary: update islive area
-      requestBody:
-        content: {}
-      security:
-        - noauthAuth: []
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /areas/live:
-    get:
-      tags:
-        - area
-      summary: All Live Area
-      security:
-        - noauthAuth: []
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /getAreas:
-    get:
-      tags:
-        - area
-      summary: get All Area
-      security:
-        - noauthAuth: []
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /getAreaById/{areaId}:
-    get:
-      tags:
-        - area
-      summary: Get Area By Id
-      security:
-        - noauthAuth: []
-      parameters:
-        - name: areaId
-          in: path
-          schema:
-            type: string
-          required: true
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /createArea:
-    post:
-      tags:
-        - area
-      summary: Create Area
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              example:
-                name: Benipur
-      security:
-        - noauthAuth: []
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /updateArea/{areaId}:
-    put:
-      tags:
-        - area
-      summary: update Area
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              example:
-                name: Darbhanga
-      security:
-        - noauthAuth: []
-      parameters:
-        - name: areaId
-          in: path
-          schema:
-            type: string
-          required: true
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /deleteArea/{areaId}:
-    delete:
-      tags:
-        - area
-      summary: delete Area
-      security:
-        - noauthAuth: []
-      parameters:
-        - name: areaId
-          in: path
-          schema:
-            type: string
-          required: true
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /updateLiveStatus/area/{id}:
-    get:
-      tags:
-        - area
-      summary: update live Area
-      security:
-        - noauthAuth: []
-      parameters:
-        - name: id
-          in: path
-          schema:
-            type: string
-          required: true
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /faq:
-    post:
-      tags:
-        - Faq
-      summary: create faq
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              example:
-                question: What  is Your 2nd Name ?
-                answer: My Name 2nd is razrahul
-      security:
-        - noauthAuth: []
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-    get:
-      tags:
-        - Faq
-      summary: Get All Faq
-      security:
-        - noauthAuth: []
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /faq/live:
-    get:
-      tags:
-        - Faq
-      summary: get All live Faq
-      security:
-        - noauthAuth: []
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /faq/{id}:
-    get:
-      tags:
-        - Faq
-      summary: Get Faq By Id
-      security:
-        - noauthAuth: []
-      parameters:
-        - name: id
-          in: path
-          schema:
-            type: string
-          required: true
-          example: 67accb6d7c9c9390c667ea37
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-    put:
-      tags:
-        - Faq
-      summary: update Faq
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              example:
-                question: Name ?
-                answer: razrahul
-      security:
-        - noauthAuth: []
-      parameters:
-        - name: id
-          in: path
-          schema:
-            type: string
-          required: true
-          example: 67accb6d7c9c9390c667ea37
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-    delete:
-      tags:
-        - Faq
-      summary: delete Faq
-      security:
-        - noauthAuth: []
-      parameters:
-        - name: id
-          in: path
-          schema:
-            type: string
-          required: true
-          example: 67accb6d7c9c9390c667ea37
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  //faq/updatelive/{id}:
-    patch:
-      tags:
-        - Faq
-      summary: update live status
-      requestBody:
-        content: {}
-      security:
-        - noauthAuth: []
-      parameters:
-        - name: id
-          in: path
-          schema:
-            type: string
-          required: true
-          example: 67accb6d7c9c9390c667ea37
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /submitContactForm:
-    post:
-      tags:
-        - Contact-from
-      summary: Create Form
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              example:
-                name: Sajan Kumar
-                number: '9708712422'
-                whatsappNumber: '9708712422'
-                email: sajan@gmail.com
-                role: Teacher
-                className: 12th
-                subjectList: 'math, English, Social Science '
-                timeslot: 10AM-12AM
-                feeRange: 200-300
-      security:
-        - noauthAuth: []
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /getAllContactForms:
-    get:
-      tags:
-        - Contact-from
-      summary: Get All From Data (Sorting new in 1st)
-      security:
-        - noauthAuth: []
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /updateContactForm/{formId}:
-    put:
-      tags:
-        - Contact-from
-      summary: update Contact Form
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              example:
-                name: Sajan Kumar
-                number: '9708712422'
-                whatsappNumber: '9708712422'
-                email: sajan@gmail.com
-                role: Teacher
-                className: 12th
-                subjectList: 'History, English, Social Science '
-                timeslot: 10AM-12AM
-                feeRange: 200-300
-      security:
-        - noauthAuth: []
-      parameters:
-        - name: formId
-          in: path
-          schema:
-            type: string
-          required: true
-          example: 67acecf10cbd597a34e0103e
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /getContactFormById/{formId}:
-    get:
-      tags:
-        - Contact-from
-      summary: Get From data By Id
-      security:
-        - noauthAuth: []
-      parameters:
-        - name: formId
-          in: path
-          schema:
-            type: string
-          required: true
-          example: 67acecf10cbd597a34e0103e
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /updateLivefrom/{formId}:
-    patch:
-      tags:
-        - Contact-from
-      summary: update From Live Status
-      requestBody:
-        content: {}
-      security:
-        - noauthAuth: []
-      parameters:
-        - name: formId
-          in: path
-          schema:
-            type: string
-          required: true
-          example: 67acecf10cbd597a34e0103e
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /updateIncomplete/{formId}:
-    patch:
-      tags:
-        - Contact-from
-      summary: update in complete Status
-      requestBody:
-        content: {}
-      security:
-        - noauthAuth: []
-      parameters:
-        - name: formId
-          in: path
-          schema:
-            type: string
-          required: true
-          example: 67acecf10cbd597a34e0103e
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /deleteContactForm/{formId}:
-    delete:
-      tags:
-        - Contact-from
-      summary: delete From data
-      security:
-        - noauthAuth: []
-      parameters:
-        - name: formId
-          in: path
-          schema:
-            type: string
-          required: true
-          example: 67acecf10cbd597a34e0103e
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /feedback:
-    post:
-      tags:
-        - Feedback
-      summary: create Feedback
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              example:
-                userId: 67abaf1d10ba9f78da741fab
-                feedback: i Am Good Testing Chal rha h
-                rating: '3'
-      security:
-        - noauthAuth: []
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-    get:
-      tags:
-        - Feedback
-      summary: get All Feedback
-      security:
-        - noauthAuth: []
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /feedback/{id}:
-    get:
-      tags:
-        - Feedback
-      summary: get feedback by id
-      security:
-        - noauthAuth: []
-      parameters:
-        - name: id
-          in: path
-          schema:
-            type: string
-          required: true
-          example: 67af4df907de8fce01150247
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-    put:
-      tags:
-        - Feedback
-      summary: update Feedback
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              example:
-                feedback: it is good devlope by devloper Rahul....update testing
-                rating: '5'
-      security:
-        - noauthAuth: []
-      parameters:
-        - name: id
-          in: path
-          schema:
-            type: string
-          required: true
-          example: 67af4e2f07de8fce0115024b
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-    delete:
-      tags:
-        - Feedback
-      summary: delete feedback
-      security:
-        - noauthAuth: []
-      parameters:
-        - name: id
-          in: path
-          schema:
-            type: string
-          required: true
-          example: 67af4e2f07de8fce0115024b
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /feedback/live:
-    get:
-      tags:
-        - Feedback
-      summary: get All live Feedback
-      security:
-        - noauthAuth: []
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /feedback/updatelive/{id}:
-    patch:
-      tags:
-        - Feedback
-      summary: update live status
-      requestBody:
-        content: {}
-      security:
-        - noauthAuth: []
-      parameters:
-        - name: id
-          in: path
-          schema:
-            type: string
-          required: true
-          example: 67af4e2f07de8fce0115024b
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /vacancy:
-    post:
-      tags:
-        - Vacancy
-      summary: create Vacancy
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              example:
-                studentName: Rahul Kumar
-                areaId: 67ae207e48507b0a38e78c34
-                subjectId: 67accec10bf26555214d2155
-      security:
-        - noauthAuth: []
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-    get:
-      tags:
-        - Vacancy
-      summary: get All vacancies
-      security:
-        - noauthAuth: []
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /vacancy/live:
-    get:
-      tags:
-        - Vacancy
-      summary: get All Live vacancies
-      security:
-        - noauthAuth: []
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /vacancy/{id}:
-    get:
-      tags:
-        - Vacancy
-      summary: get vacancy By id
-      security:
-        - noauthAuth: []
-      parameters:
-        - name: id
-          in: path
-          schema:
-            type: string
-          required: true
-          example: 67b4ba4a35fc2c52b701d3f1
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-    put:
-      tags:
-        - Vacancy
-      summary: update Vacancy
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              example:
-                studentName: Rajan Kumar
-                areaId: 67ae207e48507b0a38e78c34
-                subjectId: 67acd67a0bf26555214d2214
-      security:
-        - noauthAuth: []
-      parameters:
-        - name: id
-          in: path
-          schema:
-            type: string
-          required: true
-          example: 67b4ba4a35fc2c52b701d3f1
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-    delete:
-      tags:
-        - Vacancy
-      summary: delete Vacancy
-      security:
-        - noauthAuth: []
-      parameters:
-        - name: id
-          in: path
-          schema:
-            type: string
-          required: true
-          example: 67b4ba4a35fc2c52b701d3f1
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /vacancy/updatelive/{id}:
-    patch:
-      tags:
-        - Vacancy
-      summary: update isLive Status
-      requestBody:
-        content: {}
-      security:
-        - noauthAuth: []
-      parameters:
-        - name: id
-          in: path
-          schema:
-            type: string
-          required: true
-          example: 67b4c1495d48856585823757
+          example: 6808fd3808a3fc484bce2003
       responses:
         '200':
           description: Successful response
