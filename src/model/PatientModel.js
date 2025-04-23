@@ -4,8 +4,7 @@ import BaseModelSchema from './BaseModel';
 const Schema = mongoose.Schema;
 
 const patientSchema = new Schema({
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
+  name: { type: String, required: true },
   dob: { type: Date },
   gender: { type: String, enum: ['Male', 'Female', 'Other'] },
   contact: {
@@ -14,7 +13,6 @@ const patientSchema = new Schema({
     address: { type: String }
   },
   bloodGroup: { type: String },
-  createdAt: { type: Date, default: Date.now },
 
   ...BaseModelSchema.obj, // Include the base model schema fields
 });
