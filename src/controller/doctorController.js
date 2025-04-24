@@ -96,3 +96,16 @@ export const changeAvailability = catchAsyncError(async (req, res, next) => {
         doctor,
     });
 });
+
+//get All Avlible Doctors
+export const getAllAvailableDoctors = catchAsyncError(async (req, res, next) => {
+    const doctors = await Doctor.find({ availability: "available", isdeleted: false });
+    if (!doctors || doctors.length === 0) {
+        return next(new ErrorHandler(404, 'No available doctors found'));
+    }
+    res.status(200).json({
+        success: true,
+        message: 'Available doctors fetched successfully',
+        doctors,
+    });
+});

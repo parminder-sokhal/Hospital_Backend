@@ -53,10 +53,14 @@ app.use(cookieParser());
 // Importing & using Routes
 import DoctorRouter from "./router/doctorRoutes.js";
 import AppointmentRouter from "./router/appointmentRoutes.js";
+import PaymentRouter from "./router/paymentRoutes.js";
+import userRoutes from "./router/userRoutes.js";
 
 
 app.use("/api/v1", DoctorRouter);
 app.use("/api/v1", AppointmentRouter);
+app.use("/api/v1", PaymentRouter);
+app.use("/api/v1", userRoutes);
 
 
 
