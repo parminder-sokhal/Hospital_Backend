@@ -1,5 +1,5 @@
 import express from 'express';
-import {createDoctor, getAllDoctors, getDoctorById, changeAvailability } from '../controller/doctorController.js';
+import {createDoctor, getAllDoctors, getDoctorById, changeAvailability, getAllAvailableDoctors } from '../controller/doctorController.js';
 // import { isAuthenticated } from '../middlewares/auth.js';
 
 const router = express.Router();
@@ -13,6 +13,9 @@ router.get('/doctor/:id', getDoctorById);
 
 //chnage availability
 router.put('/doctor/:id/availability', changeAvailability);
+
+// get All available doctors
+router.get('/available-doctors', getAllAvailableDoctors);
 
 
 
