@@ -2,6 +2,7 @@ import app from "./app.js";
 import {connectDB} from "./config/database.js"
 import logger from "./logger/winston.logger.js"; 
 import cloudinary from "cloudinary";
+import Razorpay from 'razorpay';
 
 connectDB();
 
@@ -11,6 +12,26 @@ cloudinary.v2.config({
     api_secret: process.env.CLOUDINARY_CLIENT_SECRET,
 })
 
+export const instance = new Razorpay({
+    key_id: process.env.RAZORPAY_API_KEY,
+    key_secret: process.env.RAZORPAY_API_SECRET,
+});
+
+
+//test for manual genaerte signature
+
+// import crypto from "crypto";
+
+// const body = "order_QN0h91cQnjIA96|pay_123456";
+// const secret = process.env.RAZORPAY_API_SECRET;
+
+
+// const signature = crypto
+//   .createHmac("sha256", secret)
+//   .update(body)
+//   .digest("hex");
+
+// console.log("Generated Signature:", signature);
 
 
 const Port = process.env.PORT;
